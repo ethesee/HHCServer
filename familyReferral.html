@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<style>
+
+.referral-box {
+    float: left;
+    width: 810px;
+    height: 130px;
+	margin: 10px;
+    border: 5px solid lightblue;
+}
+
+.family-box {
+    float: left;
+    width: 810px;
+    height: 250px;
+	margin: 10px;
+    border: 5px solid lightblue;
+}
+
+.parent-box {
+    float: left;
+    width: 380px;
+    height: 290px;
+	margin: 10px;
+    border: 5px solid lightblue;
+}
+
+.child-box {
+    float: left;
+    width: 380px;
+    height: 210px;
+	margin: 10px;
+    border: 5px solid lightblue;
+}
+
+.required{
+	color: red;
+}
+
+.moreChild-box {
+    float: left;
+    width: 810px;
+    height: 100px;
+	margin: 10px;
+    border: 5px solid lightblue;
+}
+
+
+
+</style>
+<script src="validInput.js" > </script>
+<script>
+	// Angular code here to create Agency list
+	var app = angular.module('agencyApp', []);
+	app.controller('agencyCtrl', function($scope, $http) {
+		$http.post("loadAgency.php")
+		.then(function (response) {
+			$scope.names = response.data.records;
+		});		
+	});
+</script>
+
+</head>	
+
+<body>
+	<div style=" padding: 10px;">		
+	
+		<h2>HORIZONS FOR HOMELESS CHILDREN FAMILY REFERRAL</h2>
+		<p id="thisAgent"   hidden></p>
+		<p id="thisFamily"  hidden></p>
+		<p id="thisParent"  hidden></p>
+		<p id="thisChildid"   hidden></p>
+	</div>
+				
+	<div class = "referral-box" style="border: 5px solid lightblue; padding: 10px;" ng-app="agencyApp" ng-controller="agencyCtrl">
+		<h3> Referral Agency </h3>
+		Agency Name:   
+		<select id="selectedAgent" type="text" ng-selected="myFunc()" style="width: 177px;">
+			<option></option>
+			<option  ng-repeat="x in names">{{ x.Name }}</option>
+		 </select><span class="required" >*</span>
+		Shelter Worker    :
+		<input type="text" id="shelterWorker" name="contact" style="width: 320px;"><span class="required" >*</span><br><br>
+		Phone Number:
+		<input type="tel" id="agentPhone" name="phonenum" placeholder="123-456-7899"><span class="required" >*</span>
+		Email Address:
+		<input type="email" id="agentEmail" name="emialaddress" style="width: 280px;"><span class="required" >*</span><br><br>		
+	</div><br>	
+	<div style='clear:both;'></div>
+	<div class = "family-box" style="border: 5px solid lightblue; padding: 10px;" >
+		<h3> Family Information </h3>
+		Family Name:
+		<input type="text" id="familyName" placeholder="Last Name, First Name"><span class="required" >*</span>
+		Email Address:
+		<input type="email" id="familyEmail">	
+		<br><br>
+		Address:
+		<input type="text" id="familyAddr" style="width: 225px;"><span class="required">*</span><br><br>
+		City:
+		<input type="text" id="familyCity"><span class="required">*</span>
+		State:
+		<input type="text" id="familyState" style="width: 100px;"><span class="required">*</span>
+		Zip Code:
+		<input type="text" id="familyZip" style="width: 70px;" placeholder="02180"><span class="required">*</span><br><br>
+
+		Primary Family Language:
+		<select id="familyLanguage" style="width: 170px;">
+			<option></option>
+			<option >English</option>
+			<option >Spanish</option>
+			<option >Portuguese</option>
+			<option >Cape Verdean Creole</option>
+			<option >Haitian Creole</option>
+			<option >Somali</option>
+			<option >Arabic</option>
+			<option >Mandarin</option>
+			<option >Amharic</option>
+			<option >French</option>
+			<option >Vietnamese</option>
+			<option >Other</option>
+		</select><span class="required">*</span><br><br>
+		Main Income Source:
+		<select id="familyIncome" style="width: 150px;">
+			<option></option>
+			<option >Cash Welfare (DTA)</option>
+			<option >Employment</option>
+			<option >Other</option>
+			<option >N/A</option>
+		</select><span class="required">*</span>
+		Family Activity:
+		<select id="familyActivity" style="width: 150px;">
+			<option></option>
+			<option >Job Training</option>
+			<option >School</option>
+			<option >Employment</option>
+			<option >Other</option>
+			<option >N/A</option>
+		</select><span class="required">*</span><br><br>		
+		
+		
+	</div><br>	
+	<div style='clear:both;'></div>
+	<div class="parent-box" style="padding: 10px;">
+		<h3> Parent Information or Guardian (1) </h3>
+		Relationship to Child:
+		<select id="PP_related" style="width: 100px;">
+			<option></option>
+			<option >Mother</option>
+			<option >Father</option>
+			<option >Guardian</option>
+			<option >Other</option>
+		</select><span class="required">*</span><br><br>
+		First Name:
+		<input type="text" id="PP_fname"><span class="required">*</span><br><br>
+		Last Name:
+		<input type="text" id="PP_lname"><span class="required">*</span><br><br>		
+		Gender:
+		<select id="PP_gender" style="width: 60px;">
+			<option></option>
+			<option >F</option>
+			<option >M</option>
+		 </select><span class="required">*</span>
+		DOB:
+		<input type="date" id="PP_DOB" style="width: 150px;"><span class="required">*</span><br><br>
+		Currently Lives in Household?:
+		<select id="PP_lives" style="width: 60px;">
+			<option></option>
+			<option >Yes</option>
+			<option >No</option>
+		</select><span class="required">*</span><br><br>
+		Phone:
+		<input type="tel" id="familyTel" placeholder="123-456-7899"><span class="required" >*</span><br><br>
+	</div>
+	
+	<div class="parent-box" style="padding: 10px; left: 0px;">
+		<h3> Parent Information or Guardian (2) </h3>
+		Relationship to Child:
+		<select id="SP_related" style="width: 100px;">
+			<option></option>
+			<option >Mother</option>
+			<option >Father</option>
+			<option >Guardian</option>
+			<option >Other</option>
+		</select><br><br>
+		First Name:
+		<input type="text" id="SP_fname"><br><br>
+		Last Name:
+		<input type="text" id="SP_lname"><br><br>		
+		Gender:
+		<select id="SP_gender" style="width: 60px;">
+			<option></option>
+			<option >F</option>
+			<option >M</option>
+		</select>
+		DOB:
+		<input type="date" id="SP_DOB" style="width: 150px;"><br><br>
+		Currently Lives in Household?:
+		<select id="SP_lives" style="width: 60px;">
+			<option></option>
+			<option >Yes</option>
+			<option >No</option>
+		</select><br><br>
+		Phone:
+		<input type="tel" id="family2Tel" placeholder="123-456-7899"><br><br>
+	</div><br>			
+	<div style='clear:both;'></div>	
+	
+	<div class="child-box" style="padding: 10px;">
+		<h3> Child Information (1) </h3>
+		First Name:
+		<input type="text" id="FC_fname"><span class="required">*</span><br><br>
+		Middle Name:
+		<input type="text" id="FC_mname"><br><br>				
+		Last Name:
+		<input type="text" id="FC_lname"><span class="required">*</span><br><br>		
+		Gender:
+		<select id="FC_gender" style="width: 60px;">
+			<option></option>
+			<option >F</option>
+			<option >M</option>
+		</select><span class="required">*</span>
+		DOB:
+		<input type="date" id="FC_DOB" style="width: 150px;"><span class="required">*</span><br><br>
+	</div>
+	
+	<div class="child-box" style="padding: 10px;">
+		<h3> Child Information (2) </h3>
+		First Name:
+		<input type="text" id="SC_fname"><br><br>
+		Middle Name:
+		<input type="text" id="SC_mname"><br><br>				
+		Last Name:
+		<input type="text" id="SC_lname"><br><br>		
+		Gender:
+		<select id="SC_gender" style="width: 60px;">
+			<option></option>
+			<option >F</option>
+			<option >M</option>
+		</select>
+		DOB:
+		<input type="date" id="SC_DOB" style="width: 150px;"><br><br>
+	</div><br>	
+	<div style='clear:both;'></div>	
+
+	<div class = "moreChild-box" style="border: 5px solid lightblue; padding: 10px;" >
+		<h3>If you are entering more than 2 children enter the information for the first 2 children.  Once the information is entered,  please send an email to <a href="mailto:referrals@horizonschildren.org">referrals@horizonschildren.org</a>  with the family information and the information for the remainder of the children.</h3>	
+	</div><br>	
+	<div style='clear:both;'></div>		
+	
+	<div style="float: left; width: 930px; height: 60px; margin: 30px;">
+		<input id="clearout" type="reset" value="Clear">
+		<input type="submit" value="Cancel">
+		<input type="reset" id="btnSubmit" value="Submit">
+	</div>
+
+</body>
+</html>
